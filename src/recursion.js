@@ -81,6 +81,33 @@ var sumBelow = function(n) {
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+
+//how to not keep emptying array?? do I need to worry about that?
+if (y - x === 0 || y - x === 1) {
+	return [];
+}
+var results = [];
+if (x < y) {
+	if (x === y - 1) {
+	return results;
+} 
+results.push(x + 1);
+return results.concat(range(x+1,y));
+	//arr.push is an issue
+	//concat combines two arrays 
+	//creates a new array: console.log(array1.concat(array2));
+}
+
+if (x > y) {
+	if (x === y + 1) {
+	return results;
+} 
+results.push(x - 1);
+return results.concat(range(x-1,y));
+	//arr.push is an issue
+	//concat combines two arrays 
+	//creates a new array: console.log(array1.concat(array2));
+}
 };
 
 // 7. Compute the exponent of a number.
@@ -89,6 +116,16 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+	if (exp === 0) {
+		return 1;
+	} else {
+		if (exp > 0) {
+			return base * exponent(base, exp-1);	
+		} 
+		if (exp < 0) {
+			return 1/exponent(base, -exp);
+		}
+	}
 };
 
 // 8. Determine if a number is a power of two.
@@ -96,14 +133,35 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+	if (n === 1) {
+		return true;			
+	}
+	if (n < 1) {
+		return false;
+	}
+	n = n/2;
+	return powerOfTwo(n);
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+	if (string.length === 0) {
+		return "";
+	}
+	var str1 = string.slice(-1);
+	return str1.concat(reverse(string.slice(0,string.length-1)));
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+	var string = string.replace(/ /g,'').toLowerCase();
+	if (string.length === 0) {
+		return true;
+	}
+	if (string[0] !== string[string.length - 1]) {
+		return false;
+	}
+	return palindrome(string.slice(1,-1));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -112,6 +170,22 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+	if (y === 0) {
+		return NaN;
+	}
+	if (x === 0) {
+		return 0;
+	}
+	if (x < 0) {
+		return -modulo(-x, y);
+	}
+	if (y < 0) {
+		return modulo(x, -y);
+	}
+	if (x >= y) {
+		return modulo(x - y, y);
+	}
+	return x;
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
